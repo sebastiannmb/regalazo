@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Sell(models.Model):
+class Sells(models.Model):
     CHOICES = (
         ('Cash', 'Cash'),
         ('Card', 'Card'),

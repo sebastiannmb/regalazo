@@ -15,3 +15,5 @@ def list_categories(request):
         'categories':all_categories
     }
     return render(request, 'categories/list_categories.html', context=context)
+
+
