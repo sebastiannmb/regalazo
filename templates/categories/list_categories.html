@@ -6,8 +6,8 @@
 
 {% block content %}
 
-    <h1>Template del listado de categorias</h1>
-
+    <h1>Listado de categorias</h1>
+    <h4>Crear categoría</h4>        <a href="/categories/create-category/" class="btn btn-primary">Crear</a>
     {% for category in categories %}
 
         <p>Categoria: {{category.name}} </p>
