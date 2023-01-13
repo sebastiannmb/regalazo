@@ -33,9 +33,24 @@ def create_category(request):
         return render(request, 'categories/create_category.html', context={})
 
 def list_categories(request):
-    all_categories = Category.objects.all()
+    if 'search' in request.GET:
+        search = request.GET['search']
+        categories = Category.objects.filter(name__contains=search)
+    else:
+        categories = Category.objects.all()
     context = {
-        'categories':all_categories
+        'categories':categories
     }
     return render(request, 'categories/list_categories.html', context=context)
+
+def searchCategory(request):
+    return render(request, 'categories/search_category.html')
+
+def search(request):
+    if request.GET['categories']:
+
+        categories = request.GET['categories']
+    respuesta = f'Está buscando la categoría: {request.GET["categories"]}'
+    return HttpResponse(respuesta)
+
 
