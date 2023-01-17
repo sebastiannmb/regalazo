@@ -20,10 +20,11 @@ from Regalazo.views import home, index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', home),
-    path('index/', index),
+    path('', index, name='index'),
     path('categories/', include('categories.urls')),
     path('products/', include('products.urls')),
     path('sellers/', include('sellers.urls')),
     path('sells/', include('sells.urls')),
     path('providers/', include('providers.urls')),
+    path('users/', include('users.urls')),
 ]
