@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -32,6 +33,7 @@ def create_category(request):
             
         return render(request, 'categories/create_category.html', context={})
 
+@login_required
 def list_categories(request):
     if 'search' in request.GET:
         search = request.GET['search']

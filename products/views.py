@@ -1,17 +1,44 @@
-from django.shortcuts import render
-from products.models import Products
-from django.http import HttpResponse
 
+from django.shortcuts import render
+
+from products.models import Products
+from products.forms import ProductForm
 # Create your views here.
 
 def create_product(request):
-    new_product = Products.objects.create(name='Mochila Up', price=5417.99, category='Bolsos')
-    print(new_product)
-    return HttpResponse('Se creó el nuevo producto')
+    if request.method == 'GET':
+        context = {
+            'form': ProductForm()
+        }
+
+        return render(request, 'products/create-products.html', context=context)
+
+    elif request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            Products.objects.create(
+                name=form.cleaned_data['name'],
+                price=form.cleaned_data['price'],
+                category=form.cleaned_data['category'],
+            )
+            context = {
+                'message': 'Producto creado exitosamente'
+            }
+            return render(request, 'products/create-products.html', context=context)
+        else:
+            context = {
+                'form_errors': form.errors,
+                'form': ProductForm()
+            }
+            return render(request, 'products/create-products.html', context=context)
 
 def list_products(request):
-    all_products = Products.objects.all()
+    if 'search' in request.GET:
+        search = request.GET['search']
+        products = Products.objects.filter(name__icontains=search)
+    else:
+        products = Products.objects.all()
     context = {
-        'products':all_products,
+        'products':products,
     }
     return render(request, 'products/list_products.html', context=context)

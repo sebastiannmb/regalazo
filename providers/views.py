@@ -1,5 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from django.shortcuts import render
+
 from providers.models import Provider
 from providers.forms import ProviderForm
 
@@ -72,7 +74,7 @@ def providers_update(request, pk):
             }            
         return render(request, 'providers/update-providers.html', context=context)
 
-class ProvidersListView(ListView):
+class ProvidersListView(LoginRequiredMixin, ListView):
     model = Provider
     template_name = 'providers/list-providers.html'
     queryset = Provider.objects.filter(is_active = True)
@@ -89,4 +91,7 @@ class ProviderDeleteView(DeleteView):
     success_url = '/providers/list-providers/'
 
 class ProviderUpdateView(UpdateView):
-    pass
+    model = Provider
+    template_name = 'providers/update-provider.html'
+    fields = '__all__'
+    success_url = '/providers/list-providers/'
